@@ -25,6 +25,7 @@ public class LoginFragment extends Fragment {
 
     private FragmentSecondBinding binding;
     private LoginViewModel loginViewModel;
+    private GlobalUserViewModel globalUserViewModel;
 
     @Override
     public View onCreateView(
@@ -40,6 +41,7 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        globalUserViewModel = new ViewModelProvider(requireActivity()).get(GlobalUserViewModel.class);
 
         binding.loginAction.setOnClickListener(view1 -> {
             String email = binding.emailLogin.getText().toString().trim();
@@ -60,6 +62,8 @@ public class LoginFragment extends Fragment {
                     requireContext(),
                     user.isAdmin ? HomeActivity.class : UserActivity.class
             );
+            globalUserViewModel.setCurrentUser(user);
+            globalUserViewModel.appendCurrentUser(intent, user);
             startActivity(intent);
             requireActivity().finish();
         });

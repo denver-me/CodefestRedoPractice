@@ -8,21 +8,22 @@ import android.view.ViewGroup;
 import java.util.List;
 import java.util.Locale;
 
+import xyz.denprog.codefestredopractice.R;
 import xyz.denprog.codefestredopractice.database.entity.Room;
 import xyz.denprog.codefestredopractice.databinding.FragmentRoomReservationBinding;
 
 public class MyRoomReservationRecyclerViewAdapter extends RecyclerView.Adapter<MyRoomReservationRecyclerViewAdapter.ViewHolder> {
 
-    public interface RoomReserveListener {
-        void onReserve(Room room);
+    public interface RoomSelectListener {
+        void onSelect(Room room);
     }
 
     private final List<Room> rooms;
-    private final RoomReserveListener roomReserveListener;
+    private final RoomSelectListener roomSelectListener;
 
-    public MyRoomReservationRecyclerViewAdapter(List<Room> rooms, RoomReserveListener roomReserveListener) {
+    public MyRoomReservationRecyclerViewAdapter(List<Room> rooms, RoomSelectListener roomSelectListener) {
         this.rooms = rooms;
-        this.roomReserveListener = roomReserveListener;
+        this.roomSelectListener = roomSelectListener;
     }
 
     @Override
@@ -38,7 +39,8 @@ public class MyRoomReservationRecyclerViewAdapter extends RecyclerView.Adapter<M
         holder.contentView.setText(
                 room.roomName + "\nPrice: " + String.format(Locale.US, "%.2f", room.roomPrice)
         );
-        holder.reserveButton.setOnClickListener(v -> roomReserveListener.onReserve(room));
+        holder.reserveButton.setText(holder.reserveButton.getContext().getString(R.string.view_room_details));
+        holder.reserveButton.setOnClickListener(v -> roomSelectListener.onSelect(room));
     }
 
     @Override

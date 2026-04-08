@@ -6,6 +6,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,7 +60,7 @@ public class RoomReservationFragment extends Fragment {
         if (view instanceof RecyclerView) {
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-            adapter = new MyRoomReservationRecyclerViewAdapter(rooms, this::reserveRoom);
+            adapter = new MyRoomReservationRecyclerViewAdapter(rooms, this::openRoomDetails);
             recyclerView.setAdapter(adapter);
             loadRooms();
         }
@@ -77,16 +78,10 @@ public class RoomReservationFragment extends Fragment {
         }
     }
 
-    private void reserveRoom(@NonNull Room room) {
-        long reservationId = roomReservationViewModel.reserveRoom(room.roomId);
-        if (reservationId > 0L) {
-            Toast.makeText(
-                    requireContext(),
-                    getString(R.string.room_reserved_message, room.roomName),
-                    Toast.LENGTH_SHORT
-            ).show();
-            return;
-        }
-        Toast.makeText(requireContext(), R.string.room_reservation_failed, Toast.LENGTH_SHORT).show();
+    private void openRoomDetails(@NonNull Room room) {
+        Bundle args = new Bundle();
+        args.putLong(RoomDetailFragment.ARG_ROOM_ID, room.roomId);
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_nav_gallery_to_roomDetailFragment, args);
     }
 }

@@ -28,10 +28,14 @@ public class RoomReservationViewModel extends ViewModel {
         return roomDao.getAllRooms();
     }
 
-    public long reserveRoom(long roomId) {
+    public Room getRoomById(long roomId) {
+        return roomDao.getRoomById(roomId);
+    }
+
+    public long reserveRoom(long roomId, long reservationDate) {
         RoomReservation roomReservation = new RoomReservation();
         roomReservation.roomId = roomId;
-        roomReservation.reservationDate = System.currentTimeMillis();
+        roomReservation.reservationDate = reservationDate;
         return roomReservationDao.insertReservation(roomReservation);
     }
 }

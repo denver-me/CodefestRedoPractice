@@ -11,6 +11,7 @@ import dagger.hilt.InstallIn;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 import xyz.denprog.codefestredopractice.database.AppDatabase;
+import xyz.denprog.codefestredopractice.database.LoggedInUserDao;
 import xyz.denprog.codefestredopractice.database.RoomDao;
 import xyz.denprog.codefestredopractice.database.RoomReservationDao;
 import xyz.denprog.codefestredopractice.database.dao.UserDao;
@@ -31,6 +32,11 @@ public class DatabaseModule {
     @Provides
     public UserDao provideUserDao(AppDatabase appDatabase) {
         return appDatabase.provideUserDao();
+    }
+
+    @Provides
+    public LoggedInUserDao provideLoggedInUserDao(AppDatabase appDatabase) {
+        return appDatabase.provideLoggedInUserDao();
     }
 
     @Provides

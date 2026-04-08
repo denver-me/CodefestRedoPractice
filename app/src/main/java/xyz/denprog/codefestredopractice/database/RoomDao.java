@@ -24,4 +24,7 @@ public interface RoomDao {
 
     @Query("SELECT * FROM Room ORDER BY roomName ASC")
     List<Room> getAllRooms();
+
+    @Query("SELECT * FROM Room WHERE roomId = :roomId LIMIT 1")
+    Room getRoomById(long roomId);
 }

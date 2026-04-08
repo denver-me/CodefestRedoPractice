@@ -15,7 +15,27 @@
         android:id="@+id/nav_gallery"
         android:name="xyz.denprog.codefestredopractice.user.ui.room_reservation.RoomReservationFragment"
         android:label="@string/menu_rooms"
-        tools:layout="@layout/fragment_room_reservation_list" />
+        tools:layout="@layout/fragment_room_reservation_list">
+        <action
+            android:id="@+id/action_nav_gallery_to_roomDetailFragment"
+            app:destination="@id/roomDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/roomDetailFragment"
+        android:name="xyz.denprog.codefestredopractice.user.ui.room_reservation.RoomDetailFragment"
+        android:label="@string/room_detail_title"
+        tools:layout="@layout/fragment_room_detail">
+        <action
+            android:id="@+id/action_roomDetailFragment_to_roomReservationDateFragment"
+            app:destination="@id/roomReservationDateFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/roomReservationDateFragment"
+        android:name="xyz.denprog.codefestredopractice.user.ui.room_reservation.RoomReservationDateFragment"
+        android:label="@string/select_reservation_date"
+        tools:layout="@layout/fragment_room_reservation_date" />
 
     <fragment
         android:id="@+id/nav_slideshow"
