@@ -42,7 +42,7 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         globalUserViewModel = new ViewModelProvider(requireActivity()).get(GlobalUserViewModel.class);
-
+        getActivity().setActionBar(null);
         binding.loginAction.setOnClickListener(view1 -> {
             String email = binding.emailLogin.getText().toString().trim();
             String password = binding.passwordLogin.getText().toString();

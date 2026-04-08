@@ -42,6 +42,7 @@ public class RegisterFragment extends Fragment {
                 NavHostFragment.findNavController(RegisterFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment)
         );
+        getActivity().setActionBar(null);
         binding.registerAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
