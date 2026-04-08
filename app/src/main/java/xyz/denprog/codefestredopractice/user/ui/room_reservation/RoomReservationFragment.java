@@ -1,10 +1,11 @@
 package xyz.denprog.codefestredopractice.user.ui.room_reservation;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,27 +13,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import xyz.denprog.codefestredopractice.R;
-import xyz.denprog.codefestredopractice.user.ui.room_reservation.placeholder.PlaceholderContent;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- */
+import dagger.hilt.android.AndroidEntryPoint;
+import xyz.denprog.codefestredopractice.R;
+import xyz.denprog.codefestredopractice.database.entity.Room;
+
+@AndroidEntryPoint
 public class RoomReservationFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
+    private final List<Room> rooms = new ArrayList<>();
+    private MyRoomReservationRecyclerViewAdapter adapter;
+    private RoomReservationViewModel roomReservationViewModel;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public RoomReservationFragment() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static RoomReservationFragment newInstance(int columnCount) {
         RoomReservationFragment fragment = new RoomReservationFragment();
@@ -49,6 +48,7 @@ public class RoomReservationFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+        roomReservationViewModel = new ViewModelProvider(this).get(RoomReservationViewModel.class);
     }
 
     @Override
@@ -56,17 +56,37 @@ public class RoomReservationFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_room_reservation_list, container, false);
 
-        // Set the adapter
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MyRoomReservationRecyclerViewAdapter(PlaceholderContent.ITEMS));
+            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+            adapter = new MyRoomReservationRecyclerViewAdapter(rooms, this::reserveRoom);
+            recyclerView.setAdapter(adapter);
+            loadRooms();
         }
         return view;
+    }
+
+    private void loadRooms() {
+        rooms.clear();
+        rooms.addAll(roomReservationViewModel.getAllRooms());
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+        if (rooms.isEmpty()) {
+            Toast.makeText(requireContext(), R.string.no_rooms_available, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void reserveRoom(@NonNull Room room) {
+        long reservationId = roomReservationViewModel.reserveRoom(room.roomId);
+        if (reservationId > 0L) {
+            Toast.makeText(
+                    requireContext(),
+                    getString(R.string.room_reserved_message, room.roomName),
+                    Toast.LENGTH_SHORT
+            ).show();
+            return;
+        }
+        Toast.makeText(requireContext(), R.string.room_reservation_failed, Toast.LENGTH_SHORT).show();
     }
 }

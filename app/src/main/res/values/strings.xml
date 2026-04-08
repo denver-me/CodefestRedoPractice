@@ -57,6 +57,10 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="admin_nav_header_title">Admin Panel</string>
     <string name="admin_nav_header_subtitle">Manage users and rooms</string>
+    <string name="reserve_room">Reserve Room</string>
+    <string name="room_reserved_message">%1$s reserved.</string>
+    <string name="room_reservation_failed">Unable to reserve room.</string>
+    <string name="no_rooms_available">No rooms available yet.</string>
     <string name="title_activity_user">UserActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

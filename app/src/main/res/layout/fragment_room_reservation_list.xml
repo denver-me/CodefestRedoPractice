@@ -6,8 +6,9 @@
     android:name="xyz.denprog.codefestredopractice.user.ui.room_reservation.RoomReservationFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:clipToPadding="false"
     app:layoutManager="LinearLayoutManager"
     tools:context=".user.ui.room_reservation.RoomReservationFragment"
     tools:listitem="@layout/fragment_room_reservation" />

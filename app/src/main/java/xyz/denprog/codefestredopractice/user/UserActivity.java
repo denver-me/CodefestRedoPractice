@@ -14,9 +14,11 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import xyz.denprog.codefestredopractice.R;
 import xyz.denprog.codefestredopractice.databinding.ActivityUserBinding;
 
+@AndroidEntryPoint
 public class UserActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;

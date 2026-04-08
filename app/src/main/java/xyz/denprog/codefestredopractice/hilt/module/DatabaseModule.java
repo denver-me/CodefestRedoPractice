@@ -12,6 +12,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 import xyz.denprog.codefestredopractice.database.AppDatabase;
 import xyz.denprog.codefestredopractice.database.RoomDao;
+import xyz.denprog.codefestredopractice.database.RoomReservationDao;
 import xyz.denprog.codefestredopractice.database.dao.UserDao;
 
 @Module
@@ -35,6 +36,11 @@ public class DatabaseModule {
     @Provides
     public RoomDao provideRoomDao(AppDatabase appDatabase) {
         return appDatabase.provideRoomDao();
+    }
+
+    @Provides
+    public RoomReservationDao provideRoomReservationDao(AppDatabase appDatabase) {
+        return appDatabase.provideRoomReservationDao();
     }
 
 }

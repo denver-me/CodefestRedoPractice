@@ -17,10 +17,11 @@ import xyz.denprog.codefestredopractice.database.entity.UserRequests;
                 UserRequests.class,
                 RoomReservation.class
         },
-        version = 2,
+        version = 3,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao provideUserDao();
     public abstract RoomDao provideRoomDao();
+    public abstract RoomReservationDao provideRoomReservationDao();
 }

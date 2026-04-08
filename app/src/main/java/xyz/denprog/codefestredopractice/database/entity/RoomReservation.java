@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class RoomReservation {
-    @PrimaryKey
-    public Long reservationId;
-    public Long roomId;
-    public Long reservationDate;
+    @PrimaryKey(autoGenerate = true)
+    public long reservationId;
+    public long roomId;
+    public long reservationDate;
 }

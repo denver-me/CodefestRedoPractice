@@ -3,60 +3,65 @@ package xyz.denprog.codefestredopractice.user.ui.room_reservation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import xyz.denprog.codefestredopractice.user.ui.room_reservation.placeholder.PlaceholderContent.PlaceholderItem;
-import xyz.denprog.codefestredopractice.databinding.FragmentRoomReservationBinding;
 
 import java.util.List;
+import java.util.Locale;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceholderItem}.
- * TODO: Replace the implementation with code for your data type.
- */
+import xyz.denprog.codefestredopractice.database.entity.Room;
+import xyz.denprog.codefestredopractice.databinding.FragmentRoomReservationBinding;
+
 public class MyRoomReservationRecyclerViewAdapter extends RecyclerView.Adapter<MyRoomReservationRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlaceholderItem> mValues;
+    public interface RoomReserveListener {
+        void onReserve(Room room);
+    }
 
-    public MyRoomReservationRecyclerViewAdapter(List<PlaceholderItem> items) {
-        mValues = items;
+    private final List<Room> rooms;
+    private final RoomReserveListener roomReserveListener;
+
+    public MyRoomReservationRecyclerViewAdapter(List<Room> rooms, RoomReserveListener roomReserveListener) {
+        this.rooms = rooms;
+        this.roomReserveListener = roomReserveListener;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         return new ViewHolder(FragmentRoomReservationBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        Room room = rooms.get(position);
+        holder.room = room;
+        holder.idView.setText(String.valueOf(room.roomId));
+        holder.contentView.setText(
+                room.roomName + "\nPrice: " + String.format(Locale.US, "%.2f", room.roomPrice)
+        );
+        holder.reserveButton.setOnClickListener(v -> roomReserveListener.onReserve(room));
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return rooms.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public PlaceholderItem mItem;
+        public final android.widget.TextView idView;
+        public final android.widget.TextView contentView;
+        public final android.widget.Button reserveButton;
+        public Room room;
 
         public ViewHolder(FragmentRoomReservationBinding binding) {
             super(binding.getRoot());
-            mIdView = binding.itemNumber;
-            mContentView = binding.content;
+            idView = binding.itemNumber;
+            contentView = binding.content;
+            reserveButton = binding.reserveButton;
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + contentView.getText() + "'";
         }
     }
 }
