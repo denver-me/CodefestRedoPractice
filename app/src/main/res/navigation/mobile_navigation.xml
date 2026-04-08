@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_users"
+        android:name="xyz.denprog.codefestredopractice.admin.users_list.UserListWithRecyclerView"
+        android:label="@string/menu_users"
+        tools:layout="@layout/fragment_user_list_with_recycler_view_list" />
+
+    <fragment
+        android:id="@+id/nav_rooms"
         android:name="xyz.denprog.codefestredopractice.admin.room_management.RoomsManagementFragment"
         android:label="@string/menu_rooms"
         tools:layout="@layout/fragment_item_list" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="xyz.denprog.codefestredopractice.admin.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
 </navigation>

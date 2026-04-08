@@ -17,7 +17,7 @@ import xyz.denprog.codefestredopractice.database.entity.UserRequests;
                 UserRequests.class,
                 RoomReservation.class
         },
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
