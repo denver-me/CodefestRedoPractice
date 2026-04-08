@@ -4,10 +4,11 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class RoomReservation {
-    @PrimaryKey(autoGenerate = true)
-    public long reservationId;
+public class LoggedInUser {
+    @PrimaryKey
+    public int sessionId;
     public long userId;
-    public long roomId;
-    public long reservationDate;
+    public String displayName;
+    public String email;
+    public boolean isAdmin;
 }

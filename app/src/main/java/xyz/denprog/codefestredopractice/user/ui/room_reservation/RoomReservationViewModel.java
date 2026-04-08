@@ -11,6 +11,7 @@ import xyz.denprog.codefestredopractice.database.RoomDao;
 import xyz.denprog.codefestredopractice.database.RoomReservationDao;
 import xyz.denprog.codefestredopractice.database.entity.Room;
 import xyz.denprog.codefestredopractice.database.entity.RoomReservation;
+import xyz.denprog.codefestredopractice.user.ui.reservations.UserReservationItem;
 
 @HiltViewModel
 public class RoomReservationViewModel extends ViewModel {
@@ -32,10 +33,15 @@ public class RoomReservationViewModel extends ViewModel {
         return roomDao.getRoomById(roomId);
     }
 
-    public long reserveRoom(long roomId, long reservationDate) {
+    public long reserveRoom(long userId, long roomId, long reservationDate) {
         RoomReservation roomReservation = new RoomReservation();
+        roomReservation.userId = userId;
         roomReservation.roomId = roomId;
         roomReservation.reservationDate = reservationDate;
         return roomReservationDao.insertReservation(roomReservation);
+    }
+
+    public List<UserReservationItem> getReservationsForUser(long userId) {
+        return roomReservationDao.getReservationsForUser(userId);
     }
 }

@@ -55,6 +55,7 @@
     <string name="menu_rooms">Rooms</string>
     <string name="menu_users">Users</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_reservations">My Reservations</string>
     <string name="menu_logout">Logout</string>
     <string name="admin_nav_header_title">Admin Panel</string>
     <string name="admin_nav_header_subtitle">Manage users and rooms</string>
@@ -72,6 +73,12 @@
     <string name="confirm_reservation_date">Confirm Reservation</string>
     <string name="selected_reservation_date">Selected date: %1$s</string>
     <string name="room_not_found">Room not found.</string>
+    <string name="my_reservations_title">My Reservations</string>
+    <string name="no_reservations_found">No reservations yet.</string>
+    <string name="reservation_room_label">Room: %1$s</string>
+    <string name="reservation_date_label">Date: %1$s</string>
+    <string name="reservation_price_label">Price: %.2f</string>
+    <string name="user_session_missing">Please log in again.</string>
     <string name="room_reserved_message">%1$s reserved.</string>
     <string name="room_reservation_failed">Unable to reserve room.</string>
     <string name="no_rooms_available">No rooms available yet.</string>
