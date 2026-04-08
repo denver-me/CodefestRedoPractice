@@ -1,19 +1,25 @@
 package xyz.denprog.codefestredopractice.admin.ui.home;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+import xyz.denprog.codefestredopractice.database.RoomReservationDao;
+
+@HiltViewModel
 public class HomeViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private final RoomReservationDao roomReservationDao;
 
-    public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("Admin dashboard");
+    @Inject
+    public HomeViewModel(RoomReservationDao roomReservationDao) {
+        this.roomReservationDao = roomReservationDao;
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public List<AdminReservationItem> getAllReservations() {
+        return roomReservationDao.getAllReservations();
     }
 }

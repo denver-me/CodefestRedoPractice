@@ -78,6 +78,10 @@
     <string name="reservation_room_label">Room: %1$s</string>
     <string name="reservation_date_label">Date: %1$s</string>
     <string name="reservation_price_label">Price: %.2f</string>
+    <string name="admin_no_reservations">No reservations yet.</string>
+    <string name="admin_reservation_user_label">User: %1$s</string>
+    <string name="admin_reservation_room_label">Room: %1$s</string>
+    <string name="admin_reservation_date_label">Date: %1$s</string>
     <string name="user_session_missing">Please log in again.</string>
     <string name="room_reserved_message">%1$s reserved.</string>
     <string name="room_reservation_failed">Unable to reserve room.</string>

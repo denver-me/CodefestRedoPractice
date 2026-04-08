@@ -9,7 +9,7 @@
         android:id="@+id/nav_home"
         android:name="xyz.denprog.codefestredopractice.admin.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_admin_reservations" />
 
     <fragment
         android:id="@+id/nav_users"

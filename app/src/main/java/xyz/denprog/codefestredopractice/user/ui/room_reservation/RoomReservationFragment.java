@@ -53,6 +53,14 @@ public class RoomReservationFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            loadRooms();
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_room_reservation_list, container, false);

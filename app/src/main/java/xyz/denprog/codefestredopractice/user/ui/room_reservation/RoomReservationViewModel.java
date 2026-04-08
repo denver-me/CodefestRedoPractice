@@ -26,7 +26,7 @@ public class RoomReservationViewModel extends ViewModel {
     }
 
     public List<Room> getAllRooms() {
-        return roomDao.getAllRooms();
+        return roomDao.getAvailableRooms();
     }
 
     public Room getRoomById(long roomId) {
@@ -34,6 +34,9 @@ public class RoomReservationViewModel extends ViewModel {
     }
 
     public long reserveRoom(long userId, long roomId, long reservationDate) {
+        if (roomReservationDao.getReservationCountForRoom(roomId) > 0) {
+            return -1L;
+        }
         RoomReservation roomReservation = new RoomReservation();
         roomReservation.userId = userId;
         roomReservation.roomId = roomId;
