@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="xyz.denprog.codefestredopractice.admin.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:name="xyz.denprog.codefestredopractice.admin.room_management.RoomsManagementFragment"
+        android:label="@string/menu_rooms"
+        tools:layout="@layout/fragment_item_list" />
 
     <fragment
         android:id="@+id/nav_slideshow"

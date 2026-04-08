@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Room {
-    @PrimaryKey
-    public Long roomId;
+    @PrimaryKey(autoGenerate = true)
+    public long roomId;
     public String roomName;
-    public Float roomPrice;
+    public float roomPrice;
 }

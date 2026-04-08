@@ -36,5 +36,8 @@ public interface UserDao {
 
     @Query("UPDATE UserRequests SET isApproved = :isApproved WHERE requestId = :requestId")
     void updateUserRequestApproval(long requestId, boolean isApproved);
-}
 
+    @Query("SELECT * FROM User WHERE User.isAdmin = 1")
+    User isAdminUserExist();
+
+}

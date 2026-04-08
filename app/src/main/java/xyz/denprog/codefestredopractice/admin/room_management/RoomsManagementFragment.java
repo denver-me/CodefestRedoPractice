@@ -1,72 +1,143 @@
 package xyz.denprog.codefestredopractice.admin.room_management;
 
-import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import xyz.denprog.codefestredopractice.R;
-import xyz.denprog.codefestredopractice.admin.room_management.placeholder.PlaceholderContent;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-/**
- * A fragment representing a list of Items.
- */
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import xyz.denprog.codefestredopractice.database.entity.Room;
+import xyz.denprog.codefestredopractice.databinding.FragmentItemListBinding;
+
+@AndroidEntryPoint
 public class RoomsManagementFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private FragmentItemListBinding binding;
+    private RoomManagementViewModel roomManagementViewModel;
+    private final List<Room> rooms = new ArrayList<>();
+    private MyRoomsManagementRecyclerViewAdapter adapter;
+    private Room editingRoom;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public RoomsManagementFragment() {
-    }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static RoomsManagementFragment newInstance(int columnCount) {
-        RoomsManagementFragment fragment = new RoomsManagementFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentItemListBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        roomManagementViewModel = new ViewModelProvider(this).get(RoomManagementViewModel.class);
 
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+        binding.list.setLayoutManager(new LinearLayoutManager(requireContext()));
+        adapter = new MyRoomsManagementRecyclerViewAdapter(rooms, new MyRoomsManagementRecyclerViewAdapter.RoomActionListener() {
+            @Override
+            public void onEdit(Room room) {
+                editingRoom = room;
+                binding.roomNameInput.setText(room.roomName);
+                binding.roomPriceInput.setText(String.format(Locale.US, "%.2f", room.roomPrice));
+                binding.saveRoomButton.setText("Update Room");
+                binding.cancelEditButton.setVisibility(View.VISIBLE);
             }
-            recyclerView.setAdapter(new MyRoomsManagementRecyclerViewAdapter(PlaceholderContent.ITEMS));
+
+            @Override
+            public void onDelete(Room room, int position) {
+                if (position < 0) {
+                    return;
+                }
+                roomManagementViewModel.deleteRoom(room);
+                rooms.remove(position);
+                adapter.notifyItemRemoved(position);
+                Toast.makeText(requireContext(), "Room deleted.", Toast.LENGTH_SHORT).show();
+                if (editingRoom != null && editingRoom.roomId == room.roomId) {
+                    resetForm();
+                }
+            }
+        });
+        binding.list.setAdapter(adapter);
+
+        binding.saveRoomButton.setOnClickListener(v -> saveRoom());
+        binding.cancelEditButton.setOnClickListener(v -> resetForm());
+
+        loadRooms();
+    }
+
+    private void loadRooms() {
+        rooms.clear();
+        rooms.addAll(roomManagementViewModel.getAllRooms());
+        adapter.notifyDataSetChanged();
+    }
+
+    private void saveRoom() {
+        String roomName = binding.roomNameInput.getText().toString().trim();
+        String roomPriceText = binding.roomPriceInput.getText().toString().trim();
+
+        if (TextUtils.isEmpty(roomName) || TextUtils.isEmpty(roomPriceText)) {
+            Toast.makeText(requireContext(), "Enter room name and price.", Toast.LENGTH_SHORT).show();
+            return;
         }
-        return view;
+
+        float roomPrice;
+        try {
+            roomPrice = Float.parseFloat(roomPriceText);
+        } catch (NumberFormatException exception) {
+            Toast.makeText(requireContext(), "Enter a valid room price.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (editingRoom == null) {
+            Room room = new Room();
+            room.roomName = roomName;
+            room.roomPrice = roomPrice;
+            room.roomId = roomManagementViewModel.insertRoom(room);
+            rooms.add(room);
+            adapter.notifyItemInserted(rooms.size() - 1);
+            Toast.makeText(requireContext(), "Room added.", Toast.LENGTH_SHORT).show();
+        } else {
+            editingRoom.roomName = roomName;
+            editingRoom.roomPrice = roomPrice;
+            roomManagementViewModel.updateRoom(editingRoom);
+            int position = findRoomPosition(editingRoom.roomId);
+            if (position >= 0) {
+                adapter.notifyItemChanged(position);
+            }
+            Toast.makeText(requireContext(), "Room updated.", Toast.LENGTH_SHORT).show();
+        }
+
+        resetForm();
+    }
+
+    private int findRoomPosition(long roomId) {
+        for (int i = 0; i < rooms.size(); i++) {
+            if (rooms.get(i).roomId == roomId) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void resetForm() {
+        editingRoom = null;
+        binding.roomNameInput.setText("");
+        binding.roomPriceInput.setText("");
+        binding.saveRoomButton.setText("Add Room");
+        binding.cancelEditButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
