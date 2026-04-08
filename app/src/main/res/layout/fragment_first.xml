@@ -184,7 +184,7 @@
 
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button"
+                android:id="@+id/registerAction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Register"
@@ -194,6 +194,16 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 />
+
+            <TextView
+                android:id="@+id/loginHere"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:gravity="center"
+                android:text="Already have an account? Log in"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
