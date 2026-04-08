@@ -12,4 +12,5 @@ public class User {
     public String lastName;
     public String email;
     public String password;
+    public boolean isAdmin;
 }

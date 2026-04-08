@@ -1,4 +1,4 @@
-package xyz.denprog.codefestredopractice.home;
+package xyz.denprog.codefestredopractice.user;
 
 import android.os.Bundle;
 import android.view.View;
@@ -15,22 +15,22 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import xyz.denprog.codefestredopractice.R;
-import xyz.denprog.codefestredopractice.databinding.ActivityHomeBinding;
+import xyz.denprog.codefestredopractice.databinding.ActivityUserBinding;
 
-public class HomeActivity extends AppCompatActivity {
+public class UserActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityHomeBinding binding;
+    private ActivityUserBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        binding = ActivityUserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.appBarHome.toolbar);
-        binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
+        setSupportActionBar(binding.appBarUser.toolbar);
+        binding.appBarUser.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_user);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
@@ -54,13 +54,13 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+        getMenuInflater().inflate(R.menu.user, menu);
         return true;
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_user);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }

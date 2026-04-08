@@ -37,6 +37,8 @@ android {
 
 dependencies {
 
+    implementation(libs.legacy.support.v4)
+    implementation(libs.recyclerview)
     val room_version = "2.8.4"
 
     implementation("androidx.room:room-runtime:$room_version")
